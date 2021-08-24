@@ -1,0 +1,29 @@
+<script>
+    function printCookieValue() {
+        let cookie = document.cookie;
+        if (cookie == "") {
+                cookie = "NO COOKIES FOUND";
+        }
+    }
+    function handleMessage(event) {
+        document.getElementById("logged-in").innerHTML = event.data
+    }
+</script>
+
+<h1>app1</h1>
+
+<a href="http://app1">http</a> <a href="https://app1">https</a>
+
+<p>
+Message received from auth iframe:
+<div id="logged-in"></div>
+</p>
+
+<p>Auth embutido via iframe</p>
+
+<iframe src="//auth" style="width: 100%; height: 100%; opacity: 20%"></iframe>
+
+<script>
+    printCookieValue();
+    window.addEventListener('message', handleMessage, false);
+</script>

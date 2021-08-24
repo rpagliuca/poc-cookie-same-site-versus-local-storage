@@ -1,0 +1,65 @@
+<script>
+    function printCookieValue() {
+        let cookie = document.cookie;
+        if (cookie == "") {
+                cookie = "NO COOKIES FOUND";
+        }
+        document.getElementById("cookie").innerHTML = cookie;
+        let localData;
+        localData = window.localStorage.getItem('auth_cookie');
+        if (!localData) {
+            localData = "ITEM NOT FOUND IN LOCAL STORAGE";
+        }
+        document.getElementById("local_storage").innerHTML = localData;
+        // The wildcard (*) below is dangerous! Fix this for production
+        window.parent.postMessage(cookie + " / " + localData, "*");
+
+    }
+
+    let securityMode;
+
+    // Old (and unsafe) way
+    //securityMode = "";
+
+    // Modern unsafe way (without HTTPS)
+    //securityMode = "; SameSite=None";
+
+    // Modern unsafe way (with HTTPS)
+    //securityMode = "; SameSite=None; Secure";
+
+    // Modern safe way
+    securityMode = "; SameSite=Strict; Secure";
+
+    function setCookie() {
+        document.cookie = "auth_cookie=MY_SECRET_COOKIE; expires=Fri, 31 Dec 9999 23:59:59 GMT" + securityMode;
+        window.localStorage.setItem('auth_cookie', 'MY_SECRET_LOCAL_DATA');
+        printCookieValue();
+    }
+
+    function clearCookie() {
+        document.cookie = "auth_cookie=; expires=Fri, 31 Dec 1970 23:59:59 GMT" + securityMode;
+        window.localStorage.removeItem('auth_cookie');
+        printCookieValue();
+    }
+</script>
+
+<h1>auth</h1>
+
+<a href="http://auth">http</a> <a href="https://auth">https</a>
+
+<p>
+Cookies for this host:
+<div id="cookie"></div>
+</p>
+
+<p>
+Local storage for this host:
+<div id="local_storage"></div>
+</p>
+
+<button onclick="setCookie()">Set cookie</button>
+<button onclick="clearCookie()">Clear cookie</button>
+
+<script>
+    printCookieValue();
+</script>

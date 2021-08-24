@@ -1,0 +1,10 @@
+version: "3.5"
+services:
+  auth:
+    build: ./auth
+    volumes:
+    - ./auth/public:/var/www
+  app1:
+    build: ./app1
+    volumes:
+    - ./app1/public:/var/www
